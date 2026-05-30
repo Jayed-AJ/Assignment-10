@@ -1,11 +1,34 @@
-import { NavLink } from "react-router";
+import { useContext } from "react";
+import { Link, NavLink } from "react-router";
+import { AuthContext } from "../context/AuthContext";
 
 const Navbar = () => {
+    const {user,signOutUser} = useContext(AuthContext);
+    console.log(user);
 
     const links = <>
-       <NavLink className="mx-5" to = "/">Home</NavLink>
-       <NavLink className="mx-5" to = "/about">About</NavLink>
+       <NavLink to = "/" className={({ isActive, isPending }) =>
+      `font-bold mx-3 ${isPending ? "text-green-600" : isActive ? "text-green-500 underline" : "text-green-700"}`}>Home
+      </NavLink>
+       <NavLink to = "/browseTips" className={({ isActive, isPending }) =>
+      `font-bold mx-3 ${isPending ? "text-green-600" : isActive ? "text-green-500 underline" : "text-green-700"}`}>BrowseTips
+      </NavLink>
+       <NavLink to = "/shareGardenTips" className={({ isActive, isPending }) =>
+      `font-bold mx-3 ${isPending ? "text-green-600" : isActive ? "text-green-500 underline" : "text-green-700"}`}>ShareTips
+      </NavLink>
+       <NavLink to = "/myTips" className={({ isActive, isPending }) =>
+      `font-bold mx-3 ${isPending ? "text-green-600" : isActive ? "text-green-500 underline" : "text-green-700"}`}>MyTips
+      </NavLink>
     </>
+
+    const handelLogOut = () => {
+        signOutUser()
+        .then(()=> {
+            console.log("signout"),
+            alert("SIgnOut successful!")
+        })
+        .catch(error => console(error))
+    }
 
     return (
         <div>
@@ -29,7 +52,10 @@ const Navbar = () => {
                     </ul>
                 </div>
                 <div className="navbar-end">
-                    <a className="btn">Button</a>
+                    {
+                        user? <button onClick={handelLogOut} className="btn btn-sm bg-green-700 font-bold italic text-green-200">LogOut</button>:
+                        <button className="btn btn-sm bg-green-700 font-bold italic text-green-200"><Link to="/auth/login">Login</Link></button>
+                    }
                 </div>
             </div>
         </div>
