@@ -7,6 +7,7 @@ import Register from "../pages/Register";
 import BrowseTips from "../pages/BrowseTips";
 import MyTips from "../pages/MyTips";
 import ShareGardenTips from "../pages/ShareGardenTips";
+import PrivateRoute from "../privateRoute/PrivateRoute";
 
 export const router = createBrowserRouter([
     {
@@ -23,11 +24,15 @@ export const router = createBrowserRouter([
             },
             {
                 path: "/myTips",
-                element: <MyTips></MyTips>
+                element: <PrivateRoute>
+                    <MyTips></MyTips>
+                </PrivateRoute>
             },
             {
                 path: "/shareGardenTips",
-                element: <ShareGardenTips></ShareGardenTips>
+                element: <PrivateRoute>
+                    <ShareGardenTips></ShareGardenTips>
+                </PrivateRoute>
             }
         ]
     },

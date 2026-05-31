@@ -16,7 +16,8 @@ const Register = () => {
 
         createUser(email,password)
         .then(res => {
-            console.log(res.user)
+            console.log(res.user);
+            navigate("/")
         }).catch(error => console.log(error))
         
     }
@@ -24,7 +25,8 @@ const Register = () => {
      const handleGoogleSignIn = () => {
          signInGoogle()
          .then(result => {
-            console.log(result.user)
+            console.log(result.user);
+            navigate("/")
          }).catch(error => console.log(error))
         
     }

@@ -1,3 +1,14 @@
 @import "tailwindcss";
 @plugin "daisyui";
 
+
+.customShadowBTN {
+    box-shadow: 0px 0px 10px greenyellow;
+}
+
+.swiper-button-prev,
+.swiper-button-next {
+  color: white !important;
+  
+}
+
