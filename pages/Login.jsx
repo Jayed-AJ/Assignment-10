@@ -26,7 +26,12 @@ const Login = () => {
          signInGoogle()
          .then(result => {
             console.log(result.user);
-            navigate( location?.state || "/");
+            const userinfo = {
+                creationTime: result.user.metadata.creationTime,
+                lastSignInTime: result.user.metadata.lastSignInTime,
+            };
+            fetch("")
+            navigate( location?.state || "/welcome");
             
          }).catch(error => console.log(error))
         

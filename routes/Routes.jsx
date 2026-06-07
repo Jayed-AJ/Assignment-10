@@ -8,6 +8,7 @@ import BrowseTips from "../pages/BrowseTips";
 import MyTips from "../pages/MyTips";
 import ShareGardenTips from "../pages/ShareGardenTips";
 import PrivateRoute from "../privateRoute/PrivateRoute";
+import Welcome from "../pages/Welcome";
 
 export const router = createBrowserRouter([
     {
@@ -16,7 +17,15 @@ export const router = createBrowserRouter([
         children: [
             {
                 index: true,
-                element: <Home></Home>
+                element: <Home />,
+                loader: () =>
+                    Promise.all([
+                        fetch("http://localhost:3000/users").then(res => res.json()),
+                        fetch("http://localhost:3000/tips").then(res => res.json())
+                    ]).then(([users, tips]) => ({
+                        users,
+                        tips
+                    }))
             },
             {
                 path: "/browseTips",
@@ -33,6 +42,10 @@ export const router = createBrowserRouter([
                 element: <PrivateRoute>
                     <ShareGardenTips></ShareGardenTips>
                 </PrivateRoute>
+            },
+            {
+                path: "/welcome",
+                element: <Welcome></Welcome>
             }
         ]
     },
@@ -40,13 +53,13 @@ export const router = createBrowserRouter([
         path: "/auth",
         element: <Auth></Auth>,
         children: [{
-            path:"/auth/login",
+            path: "/auth/login",
             element: <Login></Login>
         },
         {
             path: "/auth/register",
             element: <Register></Register>
         }
-    ]
+        ]
     }
 ])
