@@ -9,18 +9,25 @@ import MyTips from "../pages/MyTips";
 import ShareGardenTips from "../pages/ShareGardenTips";
 import PrivateRoute from "../privateRoute/PrivateRoute";
 import Welcome from "../pages/Welcome";
+import Tipdetails from "../pages/Tipdetails";
+import UpdateTip from "../pages/UpdateTip";
+import ExploreGardeners from "../pages/ExploreGardeners";
+import Gardener from "../pages/Gardener";
+// import LoadingRoute from "../pages/LoadingRoute";
 
-export const router = createBrowserRouter([
+
+
+export const router = createBrowserRouter([    
     {
         path: "/",
         element: <Root></Root>,
         children: [
             {
-                index: true,
+                path: "/",
                 element: <Home />,
                 loader: () =>
                     Promise.all([
-                        fetch("http://localhost:3000/users").then(res => res.json()),
+                        fetch("http://localhost:3000/ActiveUsers").then(res => res.json()),
                         fetch("http://localhost:3000/tips").then(res => res.json())
                     ]).then(([users, tips]) => ({
                         users,
@@ -29,7 +36,9 @@ export const router = createBrowserRouter([
             },
             {
                 path: "/browseTips",
-                element: <BrowseTips></BrowseTips>
+                element: <BrowseTips></BrowseTips>,
+                loader: () => fetch("http://localhost:3000/tips").then(res => res.json())
+
             },
             {
                 path: "/myTips",
@@ -44,8 +53,30 @@ export const router = createBrowserRouter([
                 </PrivateRoute>
             },
             {
+                path: "/exploreGardeners",
+                element: <ExploreGardeners></ExploreGardeners>,
+                loader: () => fetch("http://localhost:3000/users")
+            },
+            {
                 path: "/welcome",
                 element: <Welcome></Welcome>
+            },
+            {
+                path: `/tipDetails/:id`,
+                element: <PrivateRoute>
+                    <Tipdetails></Tipdetails>
+                </PrivateRoute>,
+                loader: ({params}) => fetch(`http://localhost:3000/tips/${params.id}`),
+            },
+            {
+                path: '/updateTip/:id',
+                element: <UpdateTip></UpdateTip>,
+                loader: ({params}) => fetch(`http://localhost:3000/tips/${params.id}`)
+            },
+            {
+                path: '/gardener/:email',
+                element: <Gardener></Gardener>,
+                loader: ({params}) => fetch(`http://localhost:3000/user/${params.email}`)
             }
         ]
     },

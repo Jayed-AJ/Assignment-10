@@ -20,6 +20,9 @@ const Navbar = () => {
        <NavLink to = "/myTips" className={({ isActive, isPending }) =>
       `font-bold mx-3 ${isPending ? "text-green-600" : isActive ? "text-green-500 underline" : "text-green-700"}`}>MyTips
       </NavLink>
+       <NavLink to = "/exploreGardeners" className={({ isActive, isPending }) =>
+      `font-bold mx-3 ${isPending ? "text-green-600" : isActive ? "text-green-500 underline" : "text-green-700"}`}>ExploreGardeners
+      </NavLink>
     </>
 
     const handelLogOut = () => {
@@ -45,7 +48,7 @@ const Navbar = () => {
                            {links}
                         </ul>
                     </div>
-                    <a className="btn btn-ghost text-xl"><img className="h-8 w-10" src={logo} alt="logo" /></a>
+                    <a className="text-xl"><img className="h-8 w-10" src={logo} alt="logo" /></a>
                 </div>
                 <div className="navbar-center hidden lg:flex">
                     <ul className="menu menu-horizontal px-1">
@@ -58,9 +61,12 @@ const Navbar = () => {
                         <button className="btn btn-sm bg-green-700 font-bold italic text-green-200"><Link to="/auth/login">Login</Link></button>
                     }
                 </div>
+                
             </div>
         </div>
     );
 };
+
+ 
 
 export default Navbar;

@@ -5,7 +5,12 @@
 .customShadowBTN {
     box-shadow: 0px 0px 10px greenyellow;
 }
-
+.custom-shadow{
+    box-shadow: 0 0 20px rgb(215, 237, 211);
+}
+.tip-shadow {
+  box-shadow: 0 0 10px lightgray;
+}
 .swiper-button-prev,
 .swiper-button-next {
   color: white !important;
