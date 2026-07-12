@@ -1,12 +1,11 @@
 import { useContext } from "react";
 import { AuthContext } from "../context/AuthContext";
-import { useNavigate } from "react-router";
-
+import { useNavigate } from "react-router"
 const Register = () => {
 
-    const { createUser, signInGoogle, user } = useContext(AuthContext);
+    const { createUser, signInGoogle, user, updateUser } = useContext(AuthContext);
     const navigate = useNavigate();
-    console.log(user)
+    console.log(user);
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -16,13 +15,19 @@ const Register = () => {
 
         const form = e.target;
         const formData = new FormData(form);
-        const { email, password, ...restUser } = Object.fromEntries(formData.entries());
-
+        const { name, email, password, photo, ...restUser } = Object.fromEntries(formData.entries());
+        const profile = {
+            displayName: name,
+            photoURL: photo
+        };
+        console.log(profile)
         createUser(email, password)
-            .then(result => {
+            .then(async(result) => {
                 if (result.user) {
-                    console.log(result.user)
+                    await updateUser(profile);
                     const userinfo = {
+                        name,
+                        photo,
                         email,
                         password,
                         ...restUser,
@@ -98,7 +103,7 @@ const Register = () => {
                             <label className="label text-lg font-semibold text-black">Status</label>
                             <input type="text" name="status" className="input" placeholder="Status" />
                             <label className="label text-lg font-semibold text-black">Experience</label>
-                            <input type="text" name="experience" className="input" placeholder="Experience" />
+                            <input type="number" name="experience" className="input" placeholder="Experience" />
                             <label className="label text-lg font-semibold text-black">Email</label>
                             <input type="email" name="email" className="input" placeholder="Email" />
                             <label className="label text-lg font-semibold text-black">Password</label>

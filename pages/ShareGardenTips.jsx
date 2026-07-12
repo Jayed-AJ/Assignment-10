@@ -1,6 +1,7 @@
 import { useContext } from "react";
 import gardenBg from "../src/assets/download.jpg"
 import { AuthContext } from "../context/AuthContext";
+import Swal from 'sweetalert2';
 
 const ShareGardenTips = () => {
     const { user } = useContext(AuthContext);
@@ -13,17 +14,26 @@ const ShareGardenTips = () => {
         const newTip = Object.fromEntries(formData.entries());
         console.log(newTip);
 
+
         fetch("http://localhost:3000/tips", {
             method: 'POST',
             headers: {
-                'content-type' : 'application/json',
+                'content-type': 'application/json',
             },
             body: JSON.stringify(newTip)
 
         }).then(res => res.json())
-        .then(data => {
-            console.log(data);
-        })
+            .then(data => {
+                if (data) {
+                    console.log("data from server");
+                    Swal.fire({
+                        title: "Tip Shared Successfully!",
+                        icon: "success",
+                        draggable: true
+                    });
+                    form.reset();
+                }
+            })
     }
 
     return (

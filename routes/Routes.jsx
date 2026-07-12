@@ -13,6 +13,7 @@ import Tipdetails from "../pages/Tipdetails";
 import UpdateTip from "../pages/UpdateTip";
 import ExploreGardeners from "../pages/ExploreGardeners";
 import Gardener from "../pages/Gardener";
+import Notfound from "../pages/Notfound";
 // import LoadingRoute from "../pages/LoadingRoute";
 
 
@@ -77,6 +78,10 @@ export const router = createBrowserRouter([
                 path: '/gardener/:email',
                 element: <Gardener></Gardener>,
                 loader: ({params}) => fetch(`http://localhost:3000/user/${params.email}`)
+            },
+            {
+                path: "*",
+                element: <Notfound></Notfound>
             }
         ]
     },

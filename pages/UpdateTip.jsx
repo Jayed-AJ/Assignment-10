@@ -2,11 +2,12 @@ import { useContext } from "react";
 import gardenBg from "../src/assets/download.jpg"
 import { AuthContext } from "../context/AuthContext";
 import { useLoaderData } from "react-router";
+import Swal from "sweetalert2";
 
 
 const UpdateTip = () => {
-    const {user} = useContext(AuthContext);
-    const {title,category,imageUrl,difficulty,plantType,availability,description,_id} = useLoaderData();
+    const { user } = useContext(AuthContext);
+    const { title, category, imageUrl, difficulty, plantType, availability, description, _id } = useLoaderData();
     console.log(_id);
     const handleSubmit = e => {
         e.preventDefault();
@@ -15,15 +16,23 @@ const UpdateTip = () => {
         const updatedTip = Object.fromEntries(formData.entries());
         console.log(updatedTip);
 
-        fetch(`http://localhost:3000/tips/${_id}`,{
+        fetch(`http://localhost:3000/tips/${_id}`, {
             method: 'PUT',
-            headers: {'content-type' : 'application/json'},
+            headers: { 'content-type': 'application/json' },
             body: JSON.stringify(updatedTip)
         })
-        .then(res => res.json())
-        .then(data => {
-            console.log(data)
-        })
+            .then(res => res.json())
+            .then(data => {
+                if (data) {
+                    console.log("Update tip to ", data)
+                    Swal.fire({
+                        title: "Tip Updated Successfully!",
+                        icon: "success",
+                        draggable: true
+                    })
+                    form.reset();
+                }
+            })
     }
 
     return (
@@ -72,7 +81,7 @@ const UpdateTip = () => {
                             <label className="block mb-2 font-medium text-white">
                                 Difficulty Level
                             </label>
-                            <select name="difficulty"  defaultValue={difficulty} className="w-full px-4 py-3 rounded-xl bg-white/90 outline-none">
+                            <select name="difficulty" defaultValue={difficulty} className="w-full px-4 py-3 rounded-xl bg-white/90 outline-none">
                                 <option>Easy</option>
                                 <option>Medium</option>
                                 <option>Hard</option>
@@ -100,7 +109,7 @@ const UpdateTip = () => {
                             </label>
                             <input
                                 name="imageUrl"
-                                 defaultValue={imageUrl}
+                                defaultValue={imageUrl}
                                 placeholder="https://example.com/image.jpg"
                                 className="w-full px-4 py-3 rounded-xl bg-white/90 outline-none"
                             />
@@ -111,7 +120,7 @@ const UpdateTip = () => {
                             <label className="block mb-2 font-medium text-white">
                                 Availability
                             </label>
-                            <select name="availability"  defaultValue={availability} className="w-full px-4 py-3 rounded-xl bg-white/90 outline-none">
+                            <select name="availability" defaultValue={availability} className="w-full px-4 py-3 rounded-xl bg-white/90 outline-none">
                                 <option>Public</option>
                                 <option>Hidden</option>
                             </select>
@@ -125,7 +134,7 @@ const UpdateTip = () => {
                             <textarea
                                 rows="6"
                                 name="description"
-                                 defaultValue={description}
+                                defaultValue={description}
                                 placeholder="Share your gardening experience..."
                                 className="w-full px-4 py-3 rounded-xl bg-white/90 outline-none resize-none"
                             ></textarea>

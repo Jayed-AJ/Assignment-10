@@ -1,9 +1,9 @@
 import { useContext } from "react";
 import { AuthContext } from "../context/AuthContext";
-import {Link, useLocation, useNavigate} from "react-router";
+import { Link, useLocation, useNavigate } from "react-router";
 
 const Login = () => {
-    const { signInUser,signInGoogle,user } = useContext(AuthContext);
+    const { signInUser, signInGoogle, user } = useContext(AuthContext);
     console.log(user);
     const navigate = useNavigate();
     const location = useLocation();
@@ -18,23 +18,44 @@ const Login = () => {
         signInUser(email, password)
             .then(res => {
                 console.log(res.user);
-                navigate( location?.state || "/");
+                navigate(location?.state || "/");
             }).catch(error => console.log(error))
     }
 
     const handleGoogleSignIn = () => {
-         signInGoogle()
-         .then(result => {
-            console.log(result.user);
-            // const userinfo = {
-            //     creationTime: result.user.metadata.creationTime,
-            //     lastSignInTime: result.user.metadata.lastSignInTime,
-            // };
-            fetch("")
-            navigate( location?.state || "/welcome");
-            
-         }).catch(error => console.log(error))
-        
+        signInGoogle()
+            .then(result => {
+                if (result.user) {
+                    const userinfo = {
+                        name: result.user.displayName,
+                        email: result.user.email,
+                        photo: result.user.photoURL,
+                        creationTime: result.user.metadata.creationTime,
+                        lastSignInTime: result.user.metadata.lastSignInTime,
+                    }
+                    console.log(userinfo);
+                    fetch("http://localhost:3000/users", {
+                        method: 'POST',
+                        headers: {
+                            'content-type': 'application/json'
+                        },
+                        body: JSON.stringify(userinfo)
+                    })
+                        .then(res => res.json())
+                        .then(data => {
+                            console.log(data);
+                            alert("Login with google")
+                        })
+                }
+                // const userinfo = {
+                //     creationTime: result.user.metadata.creationTime,
+                //     lastSignInTime: result.user.metadata.lastSignInTime,
+                // };
+                // fetch("")
+                navigate(location?.state || "/welcome");
+
+            }).catch(error => console.log(error))
+
     }
 
     return (

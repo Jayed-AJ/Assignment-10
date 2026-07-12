@@ -89,7 +89,7 @@ const Gardener = () => {
 
                         <div>
                             <p className="font-semibold text-gray-500">
-                                Experience
+                                Gardening Experience
                             </p>
                             <p className="text-lg">
                                 {experience

@@ -4,6 +4,7 @@ import { Link } from "react-router";
 import { IoEye } from "react-icons/io5";
 import { GrUpdate } from "react-icons/gr";
 import { MdOutlineDeleteOutline } from "react-icons/md";
+import Swal from "sweetalert2";
 const MyTips = () => {
     const { user } = useContext(AuthContext);
     console.log(user.email);
@@ -14,14 +15,37 @@ const MyTips = () => {
             .then(res => res.json())
             .then(data => setTips(data))
     }, []);
-     
+
     const handleDelete = (_id) => {
-        console.log(_id);
-        fetch(`http://localhost:3000/tips/${_id}`, {
-            method: 'DELETE'
-        })
-        .then(res => res.json())
-        .then(data => console.log(data))
+        Swal.fire({
+            title: "Are you sure?",
+            text: "You won't be able to revert this!",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#d33",
+            cancelButtonColor: "#3085d6",
+            confirmButtonText: "Yes, delete it!"
+        }).then((result) => {
+            if (result.isConfirmed) {
+                console.log(_id);
+                fetch(`http://localhost:3000/tips/${_id}`, {
+                    method: 'DELETE'
+                })
+                    .then(res => res.json())
+                    .then(data => {
+                        if (data.deletedCount) {
+                            Swal.fire({
+                                title: "Deleted!",
+                                text: "Your Tip has been deleted.",
+                                icon: "success"
+                            })
+                            const remainingTips = tips.filter(tip => tip._id !== _id);
+                            setTips(remainingTips);
+                        }
+                    })
+            };
+        });
+
     }
 
     return (

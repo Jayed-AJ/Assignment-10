@@ -1,37 +1,37 @@
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { Link, NavLink } from "react-router";
 import { AuthContext } from "../context/AuthContext";
 import logo from "../src/assets/logo.png"
 
 const Navbar = () => {
-    const {user,signOutUser} = useContext(AuthContext);
+    const { user, signOutUser } = useContext(AuthContext);
+    const [showName, setShowName] = useState(false);
     console.log(user);
-
     const links = <>
-       <NavLink to = "/" className={({ isActive, isPending }) =>
-      `font-bold mx-3 ${isPending ? "text-green-600" : isActive ? "text-green-500 underline" : "text-green-700"}`}>Home
-      </NavLink>
-       <NavLink to = "/browseTips" className={({ isActive, isPending }) =>
-      `font-bold mx-3 ${isPending ? "text-green-600" : isActive ? "text-green-500 underline" : "text-green-700"}`}>BrowseTips
-      </NavLink>
-       <NavLink to = "/shareGardenTips" className={({ isActive, isPending }) =>
-      `font-bold mx-3 ${isPending ? "text-green-600" : isActive ? "text-green-500 underline" : "text-green-700"}`}>ShareTips
-      </NavLink>
-       <NavLink to = "/myTips" className={({ isActive, isPending }) =>
-      `font-bold mx-3 ${isPending ? "text-green-600" : isActive ? "text-green-500 underline" : "text-green-700"}`}>MyTips
-      </NavLink>
-       <NavLink to = "/exploreGardeners" className={({ isActive, isPending }) =>
-      `font-bold mx-3 ${isPending ? "text-green-600" : isActive ? "text-green-500 underline" : "text-green-700"}`}>ExploreGardeners
-      </NavLink>
+        <NavLink to="/" className={({ isActive, isPending }) =>
+            `font-bold mx-3 ${isPending ? "text-green-600" : isActive ? "text-green-500 underline" : "text-green-700"}`}>Home
+        </NavLink>
+        <NavLink to="/browseTips" className={({ isActive, isPending }) =>
+            `font-bold mx-3 ${isPending ? "text-green-600" : isActive ? "text-green-500 underline" : "text-green-700"}`}>BrowseTips
+        </NavLink>
+        <NavLink to="/shareGardenTips" className={({ isActive, isPending }) =>
+            `font-bold mx-3 ${isPending ? "text-green-600" : isActive ? "text-green-500 underline" : "text-green-700"}`}>ShareTips
+        </NavLink>
+        <NavLink to="/myTips" className={({ isActive, isPending }) =>
+            `font-bold mx-3 ${isPending ? "text-green-600" : isActive ? "text-green-500 underline" : "text-green-700"}`}>MyTips
+        </NavLink>
+        <NavLink to="/exploreGardeners" className={({ isActive, isPending }) =>
+            `font-bold mx-3 ${isPending ? "text-green-600" : isActive ? "text-green-500 underline" : "text-green-700"}`}>ExploreGardeners
+        </NavLink>
     </>
 
     const handelLogOut = () => {
         signOutUser()
-        .then(()=> {
-            console.log("signout"),
-            alert("SIgnOut successful!")
-        })
-        .catch(error => console(error))
+            .then(() => {
+                console.log("signout"),
+                    alert("SIgnOut successful!")
+            })
+            .catch(error => console(error))
     }
 
     return (
@@ -45,7 +45,7 @@ const Navbar = () => {
                         <ul
                             tabIndex="-1"
                             className="menu menu-sm dropdown-content bg-base-100 rounded-box z-1 mt-3 w-52 p-2 shadow">
-                           {links}
+                            {links}
                         </ul>
                     </div>
                     <a className="text-xl"><img className="h-8 w-10" src={logo} alt="logo" /></a>
@@ -55,18 +55,30 @@ const Navbar = () => {
                         {links}
                     </ul>
                 </div>
-                <div className="navbar-end">
+                <div className="navbar-end relative">
                     {
-                        user? <button onClick={handelLogOut} className="btn btn-sm bg-green-700 font-bold italic text-green-200">LogOut</button>:
-                        <button className="btn btn-sm bg-green-700 font-bold italic text-green-200"><Link to="/auth/login">Login</Link></button>
+                        user?.photoURL && <div onClick={() => setShowName(!showName)} class="avatar avatar-online avatar-placeholder">
+                            <div class="bg-neutral text-neutral-content w-10 rounded-full">
+                                <img src={user?.photoURL} alt="User" />
+                            </div>
+                        </div>
                     }
+                    <div className="ml-3">
+                        {
+                            user ? <button onClick={handelLogOut} className="btn btn-sm bg-green-700 font-bold italic text-green-200">LogOut</button> :
+                                <button className="btn btn-sm bg-green-700 font-bold italic text-green-200"><Link to="/auth/login">Login</Link></button>
+                        }
+                    </div>
+                    {showName && <div className="absolute mt-20 mr-5">
+                        <span className="font-semibold text-lg md:text-xl italic text-lime-700">{user?.displayName}</span>
+                    </div>}
                 </div>
-                
+
             </div>
         </div>
     );
 };
 
- 
+
 
 export default Navbar;
