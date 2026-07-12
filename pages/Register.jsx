@@ -34,7 +34,7 @@ const Register = () => {
                         creationTime: result.user.metadata.creationTime,
                         lastSignInTime: result.user.metadata.lastSignInTime,
                     }
-                    fetch('http://localhost:3000/users', {
+                    fetch('https://p10-server.vercel.app/users', {
                         method: 'POST',
                         headers: {
                             'content-type': 'application/json'
@@ -67,7 +67,7 @@ const Register = () => {
                         lastSignInTime: result.user.metadata.lastSignInTime,
                     }
                     console.log(userinfo);
-                    fetch("http://localhost:3000/users", {
+                    fetch("https://p10-server.vercel.app/users", {
                         method: 'POST',
                         headers: {
                             'content-type': 'application/json'

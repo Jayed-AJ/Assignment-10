@@ -16,7 +16,7 @@ const UpdateTip = () => {
         const updatedTip = Object.fromEntries(formData.entries());
         console.log(updatedTip);
 
-        fetch(`http://localhost:3000/tips/${_id}`, {
+        fetch(`https://p10-server.vercel.app/tips/${_id}`, {
             method: 'PUT',
             headers: { 'content-type': 'application/json' },
             body: JSON.stringify(updatedTip)

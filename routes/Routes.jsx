@@ -18,7 +18,7 @@ import Notfound from "../pages/Notfound";
 
 
 
-export const router = createBrowserRouter([    
+export const router = createBrowserRouter([
     {
         path: "/",
         element: <Root></Root>,
@@ -28,8 +28,8 @@ export const router = createBrowserRouter([
                 element: <Home />,
                 loader: () =>
                     Promise.all([
-                        fetch("http://localhost:3000/ActiveUsers").then(res => res.json()),
-                        fetch("http://localhost:3000/tips").then(res => res.json())
+                        fetch("https://p10-server.vercel.app/ActiveUsers").then(res => res.json()),
+                        fetch("https://p10-server.vercel.app/tips").then(res => res.json())
                     ]).then(([users, tips]) => ({
                         users,
                         tips
@@ -38,7 +38,7 @@ export const router = createBrowserRouter([
             {
                 path: "/browseTips",
                 element: <BrowseTips></BrowseTips>,
-                loader: () => fetch("http://localhost:3000/tips").then(res => res.json())
+                loader: () => fetch("https://p10-server.vercel.app/tips").then(res => res.json())
 
             },
             {
@@ -56,7 +56,7 @@ export const router = createBrowserRouter([
             {
                 path: "/exploreGardeners",
                 element: <ExploreGardeners></ExploreGardeners>,
-                loader: () => fetch("http://localhost:3000/users")
+                loader: () => fetch("https://p10-server.vercel.app/users")
             },
             {
                 path: "/welcome",
@@ -67,17 +67,17 @@ export const router = createBrowserRouter([
                 element: <PrivateRoute>
                     <Tipdetails></Tipdetails>
                 </PrivateRoute>,
-                loader: ({params}) => fetch(`http://localhost:3000/tips/${params.id}`),
+                loader: ({ params }) => fetch(`https://p10-server.vercel.app/tips/${params.id}`),
             },
             {
                 path: '/updateTip/:id',
                 element: <UpdateTip></UpdateTip>,
-                loader: ({params}) => fetch(`http://localhost:3000/tips/${params.id}`)
+                loader: ({ params }) => fetch(`https://p10-server.vercel.app/tips/${params.id}`)
             },
             {
                 path: '/gardener/:email',
                 element: <Gardener></Gardener>,
-                loader: ({params}) => fetch(`http://localhost:3000/user/${params.email}`)
+                loader: ({ params }) => fetch(`https://p10-server.vercel.app/user/${params.email}`)
             },
             {
                 path: "*",

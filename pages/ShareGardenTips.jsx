@@ -15,7 +15,7 @@ const ShareGardenTips = () => {
         console.log(newTip);
 
 
-        fetch("http://localhost:3000/tips", {
+        fetch("https://p10-server.vercel.app/tips", {
             method: 'POST',
             headers: {
                 'content-type': 'application/json',

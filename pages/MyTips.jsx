@@ -11,7 +11,7 @@ const MyTips = () => {
     const [tips, setTips] = useState([]);
 
     useEffect(() => {
-        fetch(`http://localhost:3000/usertips/${user.email}`)
+        fetch(`https://p10-server.vercel.app/usertips/${user.email}`)
             .then(res => res.json())
             .then(data => setTips(data))
     }, []);
@@ -28,7 +28,7 @@ const MyTips = () => {
         }).then((result) => {
             if (result.isConfirmed) {
                 console.log(_id);
-                fetch(`http://localhost:3000/tips/${_id}`, {
+                fetch(`https://p10-server.vercel.app/tips/${_id}`, {
                     method: 'DELETE'
                 })
                     .then(res => res.json())
